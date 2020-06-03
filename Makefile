@@ -63,13 +63,13 @@ CFLAGS   +=	$(INCLUDE) -D__SWITCH__ -I$(DEVKITPRO)/portlibs/switch/include/SDL2
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=c++17
 ASFLAGS  := $(ARCH)
 LDFLAGS  = -specs=$(DEVKITPRO)/libnx/switch.specs $(ARCH) -Wl,-Map,$(notdir $*.map)
-LIBS     := -lprotobuf -lnx
+LIBS     := -lNfont -lSDL2_ttf -lSDL2_image -lSDL2 -lfreetype -lpng -ljpeg -lwebp -lz -lbz2 -lEGL -lglapi -ldrm_nouveau -lprotobuf -lnx
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(PORTLIBS)/switch $(LIBNX) $(LIB) $(TOPDIR)/portlibs
+LIBDIRS	:= $(DEVKITPRO)/portlibs/switch $(LIBNX) $(LIB) $(TOPDIR)/portlibs
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional

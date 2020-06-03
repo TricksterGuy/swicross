@@ -3,38 +3,64 @@
 #include <iostream>
 
 #include <switch.h>
+#include "SDLGame.hpp"
 #include "Picross.pb.h"
+#include <NFont.h>
 
-int main(int argc, char **argv)
+class Swicross : public SDLGame
 {
-    // Initialize console. Using NULL as the second argument tells the console library to use the internal console structure as current one.
+public:
+    Swicross() : SDLGame("Swicross") {}
+
+    bool Initialize() override;
+    void New(time_t seeded_game = 0) override;
+    void Update() override;
+    void Draw() override;
+    void Destroy() override;
+private:
+    std::unique_ptr<NFont> font;
+};
+
+bool Swicross::Initialize()
+{
+    if (!SDLGame::Initialize())
+        return false;
+
     romfsInit();
-    consoleInit(NULL);
+    return true;
+}
 
-    std::ifstream in("romfs:/puzzles/test.picross", std::ios::binary);
-    if (!in.good()) return 0;
+void Swicross::New(time_t seeded_game)
+{
+    SDLGame::New(seeded_game);
+}
 
-    PicrossPuzzle puzzle;
-    if (!puzzle.ParseFromIstream(&in))
-        printf("Failed.\n");
-    else
-        printf("%s\n", puzzle.DebugString().c_str());
+void Swicross::Update()
+{
 
-    while(appletMainLoop())
-    {
-        // Scan all the inputs. This should be done once for each frame
-        hidScanInput();
+}
 
-        // hidKeysDown returns information about which buttons have been just pressed (and they weren't in the previous frame)
-        u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-        if (kDown & KEY_PLUS) break; // break in order to return to hbmenu
+void Swicross::Draw()
+{
 
-        // Updates the screen.
-        consoleUpdate(NULL);
-    }
+}
 
-    consoleExit(NULL);
+void Swicross::Destroy()
+{
+    //if (cursor) SDL_DestroyTexture(cursor);
+    //cursor = nullptr;
+    SDLGame::Destroy();
     romfsExit();
+}
+
+int main(int argc, char *argv[])
+{
+    Swicross game;
+
+    if (game.Initialize())
+        game.Run();
+
+    game.Destroy();
 
     return 0;
 }

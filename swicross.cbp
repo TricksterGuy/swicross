@@ -94,11 +94,12 @@
 		<Unit filename="Makefile">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="source/Picross.pb.cpp" />
-		<Unit filename="source/Picross.pb.hpp" />
-		<Unit filename="source/main.cpp">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="include/Game.hpp" />
+		<Unit filename="include/Picross.pb.h" />
+		<Unit filename="include/SDLGame.hpp" />
+		<Unit filename="source/Picross.pb.cc" />
+		<Unit filename="source/SDLGame.cpp" />
+		<Unit filename="source/main.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

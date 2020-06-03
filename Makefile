@@ -59,8 +59,8 @@ APP_TITLEID := "50BA84B9C0B96000"
 #---------------------------------------------------------------------------------
 ARCH     := -march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE
 CFLAGS   :=	-Wall -O2 -ffunction-sections $(ARCH) $(DEFINES)
-CFLAGS   +=	$(INCLUDE) -D__SWITCH__
-CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions
+CFLAGS   +=	$(INCLUDE) -D__SWITCH__ -I$(DEVKITPRO)/portlibs/switch/include/SDL2
+CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -std=c++17
 ASFLAGS  := $(ARCH)
 LDFLAGS  = -specs=$(DEVKITPRO)/libnx/switch.specs $(ARCH) -Wl,-Map,$(notdir $*.map)
 LIBS     := -lprotobuf -lnx
@@ -69,7 +69,7 @@ LIBS     := -lprotobuf -lnx
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(PORTLIBS) $(LIBNX) $(LIB) $(TOPDIR)/portlibs
+LIBDIRS	:= $(PORTLIBS)/switch $(LIBNX) $(LIB) $(TOPDIR)/portlibs
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional

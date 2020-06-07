@@ -3,6 +3,7 @@
 
 #include "Game.hpp"
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <string_view>
 #include <SDL.h>
@@ -29,22 +30,18 @@ public:
     SDLGame(std::string_view window_title) : title(window_title) {}
     virtual ~SDLGame() {}
     bool Initialize() override;
-    void New(time_t seeded_game = 0) override {Game::New(seeded_game);}
-    void Run() override;
     bool Input() override;
-    void Clear(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+    void Clear(uint8_t r = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = 255)
     {
         SDL_SetRenderDrawColor(renderer, r, g, b, a);
         SDL_RenderClear(renderer);
     }
     void Destroy() override;
-protected:
-    virtual void OnTouchMotion(const SDL_TouchFingerEvent& event) {}
-    virtual void OnTouchDown(const SDL_TouchFingerEvent& event) {}
-    virtual void OnTouchUp(const SDL_TouchFingerEvent& event) {}
-    virtual void OnButtonDown(const SDL_JoyButtonEvent& event) {}
-    virtual void OnButtonUp(const SDL_JoyButtonEvent& event) {}
 
+    void BeginFrame() override;
+    void EndFrame() override;
+
+protected:
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
     const std::string title;

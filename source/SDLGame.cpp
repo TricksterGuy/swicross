@@ -2,6 +2,7 @@
 
 bool SDLGame::Initialize()
 {
+    Game::Initialize();
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
     {
         SDL_Log("SDL_Init: %s\n", SDL_GetError());
@@ -40,20 +41,6 @@ bool SDLGame::Initialize()
     return true;
 }
 
-void SDLGame::Run()
-{
-    while(true)
-    {
-        if (!Input()) break;
-
-        Update();
-
-        Clear(0, 0, 0, 0);
-        Draw();
-        SDL_RenderPresent(renderer);
-    }
-}
-
 bool SDLGame::Input()
 {
     SDL_Event event;
@@ -62,19 +49,14 @@ bool SDLGame::Input()
         switch (event.type)
         {
             case SDL_FINGERMOTION:
-                OnTouchMotion(event.tfinger);
                 break;
             case SDL_FINGERDOWN:
-                OnTouchDown(event.tfinger);
                 break;
             case SDL_FINGERUP:
-                OnTouchUp(event.tfinger);
                 break;
             case SDL_JOYBUTTONDOWN:
-                OnButtonDown(event.jbutton);
                 break;
             case SDL_JOYBUTTONUP:
-                OnButtonUp(event.jbutton);
                 break;
             default:
                 break;
@@ -83,8 +65,21 @@ bool SDLGame::Input()
     return true;
 }
 
+void SDLGame::BeginFrame()
+{
+    Clear();
+    Game::BeginFrame();
+}
+
+void SDLGame::EndFrame()
+{
+    Game::EndFrame();
+    SDL_RenderPresent(renderer);
+}
+
 void SDLGame::Destroy()
 {
+    Game::Destroy();
     if (renderer) SDL_DestroyRenderer(renderer);
     renderer = nullptr;
     if (window) SDL_DestroyWindow(window);

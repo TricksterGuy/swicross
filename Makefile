@@ -40,7 +40,7 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source
+SOURCES		:=	source source/scenes
 DATA		:=	data
 INCLUDES	:=	include
 RESOURCES	:=	resources
@@ -77,7 +77,6 @@ LIBDIRS	:= $(DEVKITPRO)/portlibs/switch $(LIBNX) $(LIB) $(TOPDIR)/portlibs
 #---------------------------------------------------------------------------------
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 #---------------------------------------------------------------------------------
-
 export TOPDIR	:=	$(CURDIR)
 export OUTPUT_DIR  := $(TOPDIR)/$(OUTPUT)
 export OUTPUT_FILE := $(OUTPUT_DIR)/$(TARGET)
@@ -87,8 +86,9 @@ export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
+
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
-CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
+CPPFILES	:=  $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 CCFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cc)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
@@ -160,6 +160,8 @@ all: bootstrap
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 elf : bootstrap
+	echo $(CPPFILES)
+	echo $(VPATH)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $@
 
 nro : bootstrap
